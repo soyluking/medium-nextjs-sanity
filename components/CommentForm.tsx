@@ -27,7 +27,6 @@ const CommentForm = ({ postId }: Props) => {
       body: JSON.stringify(data),
     })
       .then(() => {
-        console.log(data);
         setSubmitted(true);
       })
       .catch((error) => {
@@ -46,87 +45,95 @@ const CommentForm = ({ postId }: Props) => {
       </p>
     </div>
   ) : (
-    <form
-      onSubmit={handleSubmit(onSubmit)}
-      className="flex flex-col"
-    >
-      <h3 className="text-sm">Enjoyed this article?</h3>
-      <h4 className="text-2xl font-bold">
-        Leave a comment bellow
-      </h4>
-      <hr className="my-5" />
+    <div className="p-6 shadow-lg shadow-gray-200 md:p-12">
+      <form
+        onSubmit={handleSubmit(onSubmit)}
+        className="flex flex-col"
+      >
+        <h3 className="text-sm text-amber-400">
+          Enjoyed this article?
+        </h3>
 
-      <input
-        {...register('_id')}
-        type="hidden"
-        name="_id"
-        value={postId}
-      />
+        <h4 className="text-2xl font-bold">
+          Leave a comment bellow
+        </h4>
 
-      <label className="mb-5 block">
-        <span className="block text-gray-600">Name</span>
+        <hr className="my-5" />
+
         <input
-          {...register('name', { required: true })}
-          className="form-input mt-1 block w-full rounded border py-2 px-3 outline-none focus:border-amber-400"
-          type="text"
-          placeholder="Add your name"
+          {...register('_id')}
+          type="hidden"
+          name="_id"
+          value={postId}
         />
-        {errors.name && (
-          <span className="text-xs text-red-500">
-            This field is required
-          </span>
-        )}
-      </label>
 
-      <label className="mb-5 block">
-        <span className="block text-gray-600">Email</span>
-        <input
-          {...register('email', {
-            required: 'This field is required',
-            pattern: {
-              value:
-                /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
-              message: 'Please enter a valid email',
-            },
-          })}
-          className="form-input mt-1 block w-full rounded border py-2 px-3 outline-none focus:border-amber-400"
-          type="email"
-          placeholder="Add your email"
-        />
-        {errors.email && (
-          <span className="text-xs text-red-500">
-            {errors.email?.message}
-          </span>
-        )}
-      </label>
+        <label className="mb-5 block">
+          <span className="block text-gray-600">Name</span>
+          <input
+            {...register('name', { required: true })}
+            className="form-input mt-1 block w-full rounded border py-2 px-3 outline-none focus:border-amber-400"
+            type="text"
+            placeholder="Add your name"
+          />
+          {errors.name && (
+            <span className="text-xs text-red-500">
+              This field is required
+            </span>
+          )}
+        </label>
 
-      <label className="mb-5 block">
-        <span className="block text-gray-600">Comment</span>
-        <textarea
-          {...register('comment', { required: true })}
-          className="form-textarea mt-1 block w-full rounded border py-2 px-3 outline-none focus:border-amber-400"
-          rows={6}
-          placeholder="What are your thoughts?"
-        />
-        {errors.comment && (
-          <span className="text-xs text-red-500">
-            This field is required
-          </span>
-        )}
-      </label>
+        <label className="mb-5 block">
+          <span className="block text-gray-600">Email</span>
+          <input
+            {...register('email', {
+              required: 'This field is required',
+              pattern: {
+                value:
+                  /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
+                message: 'Please enter a valid email',
+              },
+            })}
+            className="form-input mt-1 block w-full rounded border py-2 px-3 outline-none focus:border-amber-400"
+            type="email"
+            placeholder="Add your email"
+          />
+          {errors.email && (
+            <span className="text-xs text-red-500">
+              {errors.email?.message}
+            </span>
+          )}
+        </label>
 
-      <div className="flex justify-end space-x-4">
-        <button type="reset" className="px-5 py-1.5">
-          Cancel
-        </button>
-        <button
-          type="submit"
-          className="rounded-full border border-amber-400 bg-amber-400 px-5 py-1.5 transition hover:bg-amber-500"
-        >
-          Respond
-        </button>
-      </div>
-    </form>
+        <label className="mb-5 block">
+          <span className="block text-gray-600">
+            Comment
+          </span>
+          <textarea
+            {...register('comment', { required: true })}
+            className="form-textarea mt-1 block w-full rounded border py-2 px-3 outline-none focus:border-amber-400"
+            rows={6}
+            placeholder="What are your thoughts?"
+          />
+          {errors.comment && (
+            <span className="text-xs text-red-500">
+              This field is required
+            </span>
+          )}
+        </label>
+
+        <div className="flex justify-end space-x-4">
+          <button type="reset" className="px-5 py-1.5">
+            Cancel
+          </button>
+          <button
+            type="submit"
+            className="rounded-full border border-amber-400 bg-amber-400 px-5 py-1.5 transition hover:bg-amber-500"
+          >
+            Respond
+          </button>
+        </div>
+      </form>
+    </div>
   );
 };
 

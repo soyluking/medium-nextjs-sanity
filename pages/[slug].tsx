@@ -5,6 +5,7 @@ import PortableText from 'react-portable-text';
 import Header from '../components/Header';
 import { sanityClient, urlFor } from '../sanity';
 import { Post } from '../typings';
+import Comments from '../components/Comments';
 import CommentForm from '../components/CommentForm';
 
 interface Props {
@@ -12,8 +13,9 @@ interface Props {
 }
 
 const Single = ({ post }: Props) => {
+  console.log(post);
   return (
-    <main className="pt-20 md:pt-24">
+    <main className="pt-16 md:pt-24">
       <div className="fixed top-0 left-0 z-20 w-full bg-white">
         <Header />
       </div>
@@ -21,14 +23,14 @@ const Single = ({ post }: Props) => {
       <div className="py-12 px-6">
         <div className="mx-auto max-w-3xl">
           <article>
-            <div className="mb-4 flex items-center space-x-2">
+            <div className="mb-6 flex items-center space-x-2">
               <Image
                 className="rounded-full"
                 src={urlFor(post.author.image).url()}
                 width="40"
                 height="40"
               />
-              <p className="text-sm ">
+              <p className="text-sm">
                 {post.author.name}
                 <br />
                 <span className="text-gray-400">
@@ -96,6 +98,8 @@ const Single = ({ post }: Props) => {
 
           <hr className="my-12 border-gray-200" />
 
+          <Comments comments={post.comments} />
+
           {post._id && <CommentForm postId={post._id} />}
         </div>
       </div>
@@ -136,6 +140,11 @@ export const getStaticProps: GetStaticProps = async ({
       name,
       image,
     },
+    'comments': *[
+      _type == 'comment' &&
+      post._ref == ^._id &&
+      approved == true
+    ],
     description,
     mainImage,
     slug,
