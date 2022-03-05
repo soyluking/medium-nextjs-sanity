@@ -11,7 +11,7 @@ export interface Post {
       url: string;
     };
   };
-  comments: Comment[];
+  comments?: Comment[];
   body?: [object];
   author: {
     name: string;

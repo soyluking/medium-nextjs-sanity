@@ -98,7 +98,9 @@ const Single = ({ post }: Props) => {
 
           <hr className="my-12 border-gray-200" />
 
-          <Comments comments={post.comments} />
+          {post.comments && (
+            <Comments comments={post.comments} />
+          )}
 
           {post._id && <CommentForm postId={post._id} />}
         </div>
