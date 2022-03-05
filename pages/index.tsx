@@ -1,11 +1,18 @@
-import type { NextPage } from 'next'
-import Head from 'next/head'
-import Header from '../components/Header'
-import Hero from '../components/Hero'
+import type { NextPage } from 'next';
+import Head from 'next/head';
+import Header from '../components/Header';
+import Hero from '../components/Hero';
+import Posts from '../components/Posts';
+import { sanityClient } from '../sanity';
+import { Post } from '../typings';
 
-const Home: NextPage = () => {
+interface Props {
+  posts: [Post];
+}
+
+const Home: NextPage<Props> = ({ posts }) => {
   return (
-    <div className="">
+    <div>
       <Head>
         <title>Medium - Where good ideas find you</title>
         <link rel="icon" href="/favicon.ico" />
@@ -15,9 +22,27 @@ const Home: NextPage = () => {
 
       <Hero />
 
-      {/* <Posts /> */}
+      <Posts posts={posts} />
     </div>
-  )
-}
+  );
+};
 
-export default Home
+export const getServerSideProps = async () => {
+  const query = `*[_type == 'post'] {
+    _id,
+    title,
+    slug,
+    description,
+    mainImage,
+    author -> {
+      name,
+      image
+    }
+  }`;
+
+  const posts = await sanityClient.fetch(query);
+
+  return { props: { posts } };
+};
+
+export default Home;
