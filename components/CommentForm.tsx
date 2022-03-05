@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { useForm, SubmitHandler } from 'react-hook-form';
 
 interface IFormInput {
@@ -12,6 +13,8 @@ interface Props {
 }
 
 const CommentForm = ({ postId }: Props) => {
+  const [submitted, setSubmitted] = useState(false);
+
   const {
     register,
     handleSubmit,
@@ -25,13 +28,24 @@ const CommentForm = ({ postId }: Props) => {
     })
       .then(() => {
         console.log(data);
+        setSubmitted(true);
       })
       .catch((error) => {
         console.error(error);
+        setSubmitted(false);
       });
   };
 
-  return (
+  return submitted ? (
+    <div className="bg-amber-400 py-5 px-8">
+      <h3 className="mb-2 text-2xl font-bold">
+        Thanks for your response!
+      </h3>
+      <p>
+        Once it has been approved, it will appear below.
+      </p>
+    </div>
+  ) : (
     <form
       onSubmit={handleSubmit(onSubmit)}
       className="flex flex-col"
@@ -67,14 +81,21 @@ const CommentForm = ({ postId }: Props) => {
       <label className="mb-5 block">
         <span className="block text-gray-600">Email</span>
         <input
-          {...register('email', { required: true })}
+          {...register('email', {
+            required: 'This field is required',
+            pattern: {
+              value:
+                /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
+              message: 'Please enter a valid email',
+            },
+          })}
           className="form-input mt-1 block w-full rounded border py-2 px-3 outline-none focus:border-amber-400"
           type="email"
           placeholder="Add your email"
         />
         {errors.email && (
           <span className="text-xs text-red-500">
-            This field is required
+            {errors.email?.message}
           </span>
         )}
       </label>
@@ -95,7 +116,7 @@ const CommentForm = ({ postId }: Props) => {
       </label>
 
       <div className="flex justify-end space-x-4">
-        <button type="button" className="px-5 py-1.5">
+        <button type="reset" className="px-5 py-1.5">
           Cancel
         </button>
         <button
