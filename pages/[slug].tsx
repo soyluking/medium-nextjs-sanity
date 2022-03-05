@@ -13,8 +13,10 @@ interface Props {
 const Single = ({ post }: Props) => {
   console.log(post);
   return (
-    <main>
-      <Header />
+    <main className="pt-20 md:pt-24">
+      <div className="fixed top-0 left-0 z-20 w-full bg-white">
+        <Header />
+      </div>
 
       <div className="py-12 px-6">
         <article className="mx-auto max-w-3xl">
