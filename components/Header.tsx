@@ -1,10 +1,9 @@
-import Image from 'next/image'
-import Link from 'next/link'
-import Medium from './Medium'
+import Link from 'next/link';
+import Medium from './Medium';
 
 const Header = () => {
   return (
-    <header className="bg-amber-400 py-5 px-6">
+    <header className="py-5 px-6">
       <div className="mx-auto flex w-full max-w-7xl items-center justify-between">
         <div className="flex items-center space-x-5">
           <Link href="/">
@@ -38,7 +37,7 @@ const Header = () => {
         </div>
       </div>
     </header>
-  )
-}
+  );
+};
 
-export default Header
+export default Header;

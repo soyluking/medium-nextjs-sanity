@@ -18,9 +18,11 @@ const Home: NextPage<Props> = ({ posts }) => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <Header />
+      <div className="bg-amber-400">
+        <Header />
 
-      <Hero />
+        <Hero />
+      </div>
 
       <Posts posts={posts} />
     </div>
@@ -36,8 +38,8 @@ export const getServerSideProps = async () => {
     mainImage,
     author -> {
       name,
-      image
-    }
+      image,
+    },
   }`;
 
   const posts = await sanityClient.fetch(query);
